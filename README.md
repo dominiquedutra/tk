@@ -97,9 +97,20 @@ Pra orientar o agent no seu projeto, copia o [`AGENTS.md`](AGENTS.md) deste repo
 pra raiz do seu. O Claude Code lê `CLAUDE.md`, o Codex lê `AGENTS.md` — um symlink
 resolve os dois:
 
+Se o projeto **ainda não tem** esses arquivos:
+
 ```bash
-cp AGENTS.md /seu/projeto/AGENTS.md
-cd /seu/projeto && ln -s AGENTS.md CLAUDE.md
+cd /seu/projeto
+curl -fsSL https://raw.githubusercontent.com/dominiquedutra/tk/main/AGENTS.md -o AGENTS.md
+ln -s AGENTS.md CLAUDE.md
+```
+
+Se **já tem** — o caso comum em projeto em andamento — acrescenta no fim,
+não sobrescreve:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/dominiquedutra/tk/main/AGENTS.md \
+  | tail -n +6 >> AGENTS.md
 ```
 
 ## As colunas
@@ -152,3 +163,17 @@ Backup é copiar a pasta. Migração de schema é automática ao abrir o banco.
 ## Licença
 
 MIT.
+
+## Desinstalar
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/dominiquedutra/tk/main/uninstall.sh -o /tmp/tk-uninstall.sh
+bash /tmp/tk-uninstall.sh
+```
+
+Remove os binários, o programa e o registro do MCP — cirurgicamente: seus outros
+MCP servers no Claude Code e no Codex ficam intactos. Pergunta antes de apagar os
+dados (`--purge` apaga sem perguntar, `--keep-data` mantém).
+
+Não toca no `~/.zshrc` nem em arquivo do seu projeto; o que fazer com eles fica
+escrito na saída.
